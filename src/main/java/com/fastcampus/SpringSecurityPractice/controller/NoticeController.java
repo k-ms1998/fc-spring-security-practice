@@ -4,6 +4,7 @@ import com.fastcampus.SpringSecurityPractice.domain.note.NoteRegisterDto;
 import com.fastcampus.SpringSecurityPractice.domain.notice.Notice;
 import com.fastcampus.SpringSecurityPractice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/notice")
+@Slf4j
 public class NoticeController {
 
     private final NoticeService noticeService;
@@ -24,7 +26,7 @@ public class NoticeController {
      *
      * @return notice/index.html
      */
-    @GetMapping("/")
+    @GetMapping
     public String getNotice(Model model) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         List<Notice> notices = noticeService.findAll();
@@ -35,7 +37,7 @@ public class NoticeController {
     /**
      * 공지사항 등록
      */
-    @PostMapping("/")
+    @PostMapping
     public String postNotice(@RequestBody NoteRegisterDto noteRegisterDto) {
         String title = noteRegisterDto.getTitle();
         String content = noteRegisterDto.getContent();
