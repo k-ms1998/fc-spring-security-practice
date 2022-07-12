@@ -27,7 +27,8 @@ public class NoteController {
      */
     @GetMapping("/")
     public String getNotes(Model model, Authentication authentication) {
-        List<Note> notes = noteService.findByUser(new User());
+        User user = (User) authentication.getPrincipal();
+        List<Note> notes = noteService.findByUser(user);
         model.addAttribute("notes", notes);
 
         return "note/index";

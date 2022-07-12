@@ -1,6 +1,5 @@
 package com.fastcampus.SpringSecurityPractice.service;
 
-import com.fastcampus.SpringSecurityPractice.constant.Role;
 import com.fastcampus.SpringSecurityPractice.domain.user.User;
 import com.fastcampus.SpringSecurityPractice.domain.user.UserRegisterDto;
 import com.fastcampus.SpringSecurityPractice.exception.AlreadyRegisteredException;
@@ -31,7 +30,7 @@ public class UserService {
             throw new AlreadyRegisteredException();
         }
 
-        User user = User.of(username, passwordEncoder.encode(password), Role.USER);
+        User user = User.of(username, passwordEncoder.encode(password), "ROLE_USER");
         return userRepository.save(user);
     }
 

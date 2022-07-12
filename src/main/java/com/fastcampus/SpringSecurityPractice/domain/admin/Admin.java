@@ -1,6 +1,5 @@
 package com.fastcampus.SpringSecurityPractice.domain.admin;
 
-import com.fastcampus.SpringSecurityPractice.constant.Role;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,23 +18,23 @@ public class Admin {
 
     private String adminName;
     private String password;
-    private Role authority;
+    private String authority;
 
     @Column(unique = true)
     private String adminId;
 
-    public Admin(String adminName, String password, Role authority, String adminId) {
+    public Admin(String adminName, String password, String authority, String adminId) {
         this.adminName = adminName;
         this.password = password;
         this.authority = authority;
         this.adminId = adminId;
     }
 
-    public static Admin of(String adminName, String password, Role authority, String adminId) {
+    public static Admin of(String adminName, String password, String authority, String adminId) {
         return new Admin(adminName, password, authority, adminId);
     }
 
     public boolean isAdmin() {
-        return authority.equals(Role.ADMIN);
+        return authority.equals("ROLE_ADMIN");
     }
 }

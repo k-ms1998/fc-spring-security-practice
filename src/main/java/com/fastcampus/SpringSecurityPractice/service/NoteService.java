@@ -1,6 +1,5 @@
 package com.fastcampus.SpringSecurityPractice.service;
 
-import com.fastcampus.SpringSecurityPractice.constant.Role;
 import com.fastcampus.SpringSecurityPractice.domain.admin.Admin;
 import com.fastcampus.SpringSecurityPractice.domain.note.Note;
 import com.fastcampus.SpringSecurityPractice.domain.note.NoteRegisterDto;
@@ -46,7 +45,7 @@ public class NoteService {
             throw new ObjectNotFoundException();
         }
 
-        if (!admin.getAuthority().equals(Role.ADMIN)) {
+        if (!admin.getAuthority().equals("ROLE_ADMIN")) {
             throw new IllegalStateException();
         }
 

@@ -1,6 +1,5 @@
 package com.fastcampus.SpringSecurityPractice.service;
 
-import com.fastcampus.SpringSecurityPractice.constant.Role;
 import com.fastcampus.SpringSecurityPractice.domain.admin.Admin;
 import com.fastcampus.SpringSecurityPractice.domain.admin.AdminRegisterDto;
 import com.fastcampus.SpringSecurityPractice.exception.AlreadyRegisteredException;
@@ -26,7 +25,7 @@ public class AdminService {
             throw new AlreadyRegisteredException();
         }
 
-        Admin admin = Admin.of(adminName, passwordEncoder.encode(password), Role.ADMIN, adminId);
+        Admin admin = Admin.of(adminName, passwordEncoder.encode(password), "ROLE_ADMIN", adminId);
         return adminRepository.save(admin);
     }
 
