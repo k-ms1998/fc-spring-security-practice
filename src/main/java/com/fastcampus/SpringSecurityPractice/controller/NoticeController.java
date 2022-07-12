@@ -28,6 +28,9 @@ public class NoticeController {
      */
     @GetMapping
     public String getNotice(Model model) {
+        /**
+         * SecurityContext 에는 접근 주체와 인증에 대한 정보를 담고 있는 Context
+         */
         SecurityContext securityContext = SecurityContextHolder.getContext();
         List<Notice> notices = noticeService.findAll();
         model.addAttribute("notices", notices);
