@@ -11,7 +11,7 @@ public class DefaultController {
         return "index";
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = {"/login", "/my/login"})
     public String loginPage() {
         return "login";
     }
