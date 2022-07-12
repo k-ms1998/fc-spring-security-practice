@@ -55,7 +55,7 @@ public class InitializeDefaultDataConfig {
         adminService.saveAdmin(admin);
 
         // Notice 등록
-        noticeService.saveNotice("Welcome", "First Notice");
-        noticeService.saveNotice("Instructions", "How to Write Notes: \n1. Log in \n2. Write Notes");
+        noticeService.saveNotice(new NoteRegisterDto("Welcome", "This is the first notice."));
+        noticeService.saveNotice(new NoteRegisterDto("Instructions", "How to Write Notes: \n1. Log in \n2. Write Notes"));
     }
 }

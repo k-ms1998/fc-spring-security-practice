@@ -41,11 +41,8 @@ public class NoticeController {
      * 공지사항 등록
      */
     @PostMapping
-    public String postNotice(@RequestBody NoteRegisterDto noteRegisterDto) {
-        String title = noteRegisterDto.getTitle();
-        String content = noteRegisterDto.getContent();
-
-        noticeService.saveNotice(title, content);
+    public String postNotice(@ModelAttribute NoteRegisterDto noteRegisterDto) {
+        noticeService.saveNotice(noteRegisterDto);
         return "redirect:notice";
     }
 

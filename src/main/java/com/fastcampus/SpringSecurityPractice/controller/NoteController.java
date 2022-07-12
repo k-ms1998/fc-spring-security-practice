@@ -25,7 +25,7 @@ public class NoteController {
      * @param authentication
      * @return
      */
-    @GetMapping("/")
+    @GetMapping
     public String getNotes(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         List<Note> notes = noteService.findByUser(user);
@@ -45,8 +45,11 @@ public class NoteController {
     /**
      * 노트 저장
      */
-    @PostMapping("/")
-    public String saveNote(@RequestBody NoteRegisterDto noteRegisterDto) {
+    @PostMapping
+    public String saveNote(@ModelAttribute NoteRegisterDto noteRegisterDto, Authentication authentication) {
+        System.out.println("noteRegisterDto = " + noteRegisterDto);
+        User user = (User) authentication.getPrincipal();
+        noteRegisterDto.updateUser(user);
         noteService.saveNote(noteRegisterDto);
 
         return "redirect:note";

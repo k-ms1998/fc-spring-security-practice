@@ -19,12 +19,12 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @GetMapping("/")
+    @GetMapping
     public String adminSignUpPage() {
         return "signup";
     }
 
-    @PostMapping("/")
+    @PostMapping
     public String adminSignUp(@RequestBody AdminRegisterDto adminRegisterDto) {
         adminService.saveAdmin(adminRegisterDto);
 

@@ -1,5 +1,6 @@
 package com.fastcampus.SpringSecurityPractice.service;
 
+import com.fastcampus.SpringSecurityPractice.domain.note.NoteRegisterDto;
 import com.fastcampus.SpringSecurityPractice.domain.notice.Notice;
 import com.fastcampus.SpringSecurityPractice.domain.notice.NoticeRegisterDto;
 import com.fastcampus.SpringSecurityPractice.repository.NoticeRepository;
@@ -30,12 +31,12 @@ public class NoticeService {
     /**
      * 공지사항 저장
      *
-     * @param title   제목
-     * @param content 내용
      * @return 저장된 공지사항
      */
     @Transactional
-    public Notice saveNotice(String title, String content) {
+    public Notice saveNotice(NoteRegisterDto noteRegisterDto) {
+        String title = noteRegisterDto.getTitle();
+        String content = noteRegisterDto.getContent();
         return noticeRepository.save(Notice.of(title, content));
     }
 
