@@ -76,7 +76,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public UserDetailsService userDetailsService() {
         return username -> {
-            if (username.contains("admin")) {
+            if (username.contains("admin") || username.contains("Admin")) {
                 Admin admin = adminService.findByAdminName(username);
                 if (admin == null) {
                     throw new UsernameNotFoundException(username);
