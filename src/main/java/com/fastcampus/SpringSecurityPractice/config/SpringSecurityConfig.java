@@ -3,7 +3,6 @@ package com.fastcampus.SpringSecurityPractice.config;
 import com.fastcampus.SpringSecurityPractice.domain.admin.Admin;
 import com.fastcampus.SpringSecurityPractice.domain.user.User;
 import com.fastcampus.SpringSecurityPractice.filter.StopWatchFilter;
-import com.fastcampus.SpringSecurityPractice.filter.TesterAuthenticationFilter;
 import com.fastcampus.SpringSecurityPractice.service.AdminService;
 import com.fastcampus.SpringSecurityPractice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -29,6 +29,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // Add Custom Filters
+        http.addFilterBefore(new StopWatchFilter(), WebAsyncManagerIntegrationFilter.class);
+
         // basic authentication
         http.httpBasic().disable(); // basic authentication filter 비활성화
 
