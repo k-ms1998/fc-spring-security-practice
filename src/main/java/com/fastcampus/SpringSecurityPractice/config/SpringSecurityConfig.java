@@ -2,7 +2,11 @@ package com.fastcampus.SpringSecurityPractice.config;
 
 import com.fastcampus.SpringSecurityPractice.domain.admin.Admin;
 import com.fastcampus.SpringSecurityPractice.domain.user.User;
+import com.fastcampus.SpringSecurityPractice.filter.JwtAuthenticationFilter;
+import com.fastcampus.SpringSecurityPractice.filter.JwtAuthorizationFilter;
 import com.fastcampus.SpringSecurityPractice.filter.StopWatchFilter;
+import com.fastcampus.SpringSecurityPractice.jwt.JwtProperties;
+import com.fastcampus.SpringSecurityPractice.repository.UserRepository;
 import com.fastcampus.SpringSecurityPractice.service.AdminService;
 import com.fastcampus.SpringSecurityPractice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +18,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -25,6 +32,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final UserRepository userRepository;
     private final AdminService adminService;
 
     @Override
@@ -40,6 +48,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // remember-me
         http.rememberMe();
+
+        // stateless ( session X; cookie O)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // JWT filter
+        /**
+         * 1. 로그인 시도
+         * 2. JwtAuthenticationFilter 동작
+         *      -> 로그인 성공: Token 생성 -> 3번으로 이동
+         * 3. JwtAuthorizationFilter 동작
+         */
+        http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()),
+                                     UsernamePasswordAuthenticationFilter.class
+        ).addFilterBefore(new JwtAuthorizationFilter(userRepository),
+                                     BasicAuthenticationFilter.class);
+
 
         // authorization
         http.authorizeRequests()
@@ -62,7 +86,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // logout
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies(JwtProperties.COOKIE_NAME);
     }
 
     @Override
